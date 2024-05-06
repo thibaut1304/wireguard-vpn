@@ -18,9 +18,9 @@ iptables -t nat -D POSTROUTING <numéro de ligne>
 Ajouter une regle nat pour autoriser le traffic sur le reseaux local
 A faire pour chaque client VPN  
 
-iptables -t nat -A POSTROUTING -o eth0 -s 10.66.66.5 -d 192.168.1.0/24 -j MASQUERADE  
+iptables -t nat -A POSTROUTING -o eth0 -s 10.66.66.5 -j MASQUERADE  
 iptables -t nat -A POSTROUTING -o eth0 -s 10.66.66.2 -d 192.168.1.0/24 -j MASQUERADE  
-iptables -t nat -A POSTROUTING -o eth0 -s 10.66.66.3 -d 192.168.1.0/24 -j MASQUERADE  
+iptables -t nat -A POSTROUTING -o eth0 -s 10.66.66.3 -j MASQUERADE  
 iptables -t nat -A POSTROUTING -o eth0 -s 10.66.66.4 -d 192.168.1.0/24 -j MASQUERADE  
 
 Dans les regles iptables de FORWARD commencer par autoriser les reponses aux demande initie :
