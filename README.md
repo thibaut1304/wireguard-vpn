@@ -54,3 +54,5 @@ iptables -A FORWARD -i wg0 -o eth0 -s 10.66.66.4 -d 192.168.1.1 -j DROP
 iptables -A FORWARD -i eth0 -o wg0 -s 192.168.1.1 -d 10.66.66.4 -j DROP  
 iptables -A FORWARD -i wg0 -o eth0 -s 10.66.66.4 -d 192.168.1.14 -j ACCEPT  
 iptables -A FORWARD -i eth0 -o wg0 -s 192.168.1.14 -d 10.66.66.4 -j ACCEPT  
+iptables -A FORWARD -i wg0 -o eth0 -s 10.66.66.4 -d 192.168.1.0/24 -j DROP  
+iptables -A FORWARD -i eth0 -o wg0 -s 192.168.1.0/24 -d 10.66.66.4 -j DROP  
