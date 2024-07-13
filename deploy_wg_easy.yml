@@ -1,0 +1,42 @@
+---
+- name: Deploy wg-easy using Docker
+  hosts: all
+  become: yes
+  vars_files:
+    - credentials.yml
+  vars:
+    wg_easy_data_path: "/etc/wg-easy"
+
+  tasks:
+    - name: Ensure the WireGuard directory exists
+      ansible.builtin.file:
+        path: "{{ wg_easy_data_path }}"
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Start wg-easy container
+      community.docker.docker_container:
+        name: wg-easy
+        image: ghcr.io/wg-easy/wg-easy
+        state: started
+        restart_policy: unless-stopped
+        published_ports:
+          - "{{ wg_port }}:{{ wg_port }}/udp"
+          - "{{ wg_port_ui }}:{{ wg_port_ui }}/tcp"
+        volumes:
+          - "{{ wg_easy_data_path }}:/etc/wireguard"
+        env:
+          LANG: en
+          WG_HOST: "vpn.thibaut-husser.com"
+          PASSWORD: "{{ wg_password_ui }}"
+          PORT: "{{ wg_port_ui }}"
+          WG_PORT: "{{ wg_port }}"
+        capabilities:
+          - NET_ADMIN
+          - SYS_MODULE
+        sysctls:
+          net.ipv4.conf.all.src_valid_mark: "1"
+          net.ipv4.ip_forward: "1"
+
